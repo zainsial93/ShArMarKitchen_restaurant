@@ -19,11 +19,12 @@ const AdminDashboard = () => {
     const fetchData = async (token) => {
         try {
             const headers = { 'x-admin-token': token };
+            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
             const [usersRes, ordersRes, reviewsRes] = await Promise.all([
-                fetch('http://localhost:5000/api/admin/users', { headers }),
-                fetch('http://localhost:5000/api/admin/orders', { headers }),
-                fetch('http://localhost:5000/api/admin/reviews', { headers })
+                fetch(`${API_BASE}/api/admin/users`, { headers }),
+                fetch(`${API_BASE}/api/admin/orders`, { headers }),
+                fetch(`${API_BASE}/api/admin/reviews`, { headers })
             ]);
 
             if (usersRes.status === 403 || ordersRes.status === 403) {
