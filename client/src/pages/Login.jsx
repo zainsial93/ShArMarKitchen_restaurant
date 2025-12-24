@@ -12,7 +12,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const API_BASE = 'https://sharmarkitchenrestaurant-production.up.railway.app';
             const res = await fetch(`${API_BASE}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

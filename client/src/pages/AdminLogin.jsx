@@ -12,7 +12,7 @@ const AdminLogin = () => {
         setError('');
 
         try {
-            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const API_BASE = 'https://sharmarkitchenrestaurant-production.up.railway.app';
             const response = await fetch(`${API_BASE}/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -19,7 +19,7 @@ const AdminDashboard = () => {
     const fetchData = async (token) => {
         try {
             const headers = { 'x-admin-token': token };
-            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const API_BASE = 'https://sharmarkitchenrestaurant-production.up.railway.app';
 
             const [usersRes, ordersRes, reviewsRes] = await Promise.all([
                 fetch(`${API_BASE}/api/admin/users`, { headers }),

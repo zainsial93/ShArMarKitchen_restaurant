@@ -11,8 +11,9 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            console.log("Attempting Signup at:", `${API_BASE}/api/auth/signup`); // DEBUG LOG
+            // Hardcoded Production URL
+            const API_BASE = 'https://sharmarkitchenrestaurant-production.up.railway.app';
+            console.log("Attempting Signup at (Hardcoded):", `${API_BASE}/api/auth/signup`);
 
             const res = await fetch(`${API_BASE}/api/auth/signup`, {
                 method: 'POST',
