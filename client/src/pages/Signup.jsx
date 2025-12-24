@@ -25,7 +25,8 @@ const Signup = () => {
                 setError(data.error);
             }
         } catch (err) {
-            setError('Failed to signup');
+            console.error('Signup Error Details:', err);
+            setError(`Failed to signup: ${err.message}`);
         }
     };
 
