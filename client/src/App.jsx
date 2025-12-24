@@ -11,7 +11,9 @@ import Contact from './pages/Contact';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
+import Login from './pages/Login';
 import Signup from './pages/Signup';
+import MyOrders from './pages/MyOrders';
 import WelcomeModal from './components/WelcomeModal';
 import ReviewModal from './components/ReviewModal';
 import CheckoutModal from './components/CheckoutModal';
@@ -35,6 +37,8 @@ const AppContent = () => {
           <Route path="/order-summary" element={<OrderSummary />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/my-orders" element={user ? <MyOrders /> : <Navigate to="/login" />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>

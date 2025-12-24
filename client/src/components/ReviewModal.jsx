@@ -23,6 +23,13 @@ const ReviewModal = () => {
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
+        if (hasOrdered && !submitted) {
+            // Immediate popup when order is placed
+            setIsOpen(true);
+        }
+    }, [hasOrdered, submitted]);
+
+    useEffect(() => {
         // Logic: If user has ordered, AND hasn't submitted yet:
         // 1. Show on mouse leave (exit intent)
         // 2. Warn on beforeunload

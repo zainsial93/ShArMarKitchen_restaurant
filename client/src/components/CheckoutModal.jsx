@@ -8,6 +8,11 @@ import { formatCurrency } from '../utils/currency';
 
 const CheckoutModal = ({ isOpen, onClose }) => {
     const { cart, getTotal, clearCart, markOrderAsPlaced, addToCart, removeFromCart } = useCart();
+    const { user } = require('../context/AuthContext').useAuth(); // Using require inside component to avoid top-level circular dependency if any, or just import at top.
+    // Better: import useAuth at top.
+    // Wait, import is already at top? No.
+    // Let me check imports. useAuth is NOT imported in CheckoutModal.jsx.
+    // I need to add import.
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         customerName: '',
@@ -45,6 +50,7 @@ const CheckoutModal = ({ isOpen, onClose }) => {
             const orderData = {
                 customerName: formData.customerName,
                 customerAddress: formData.customerAddress,
+                userId: user ? user.id : null,
                 totalAmount: getTotal(),
                 items: cart.map(item => ({
                     productId: item.id,

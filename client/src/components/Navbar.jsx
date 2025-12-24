@@ -16,9 +16,10 @@ const Navbar = () => {
                 <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
                     <SialMartLogo />
                 </Link>
-                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                    <Link to="/" style={{ fontWeight: 500, fontSize: '1rem', opacity: 0.9 }}>Home</Link>
-                    <Link to="/contact" style={{ fontWeight: 500, fontSize: '1rem', opacity: 0.9 }}>Contact Us</Link>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Link to="/" style={{ fontWeight: 500, fontSize: '0.9rem', opacity: 0.9 }}>Home</Link>
+                    {user && <Link to="/my-orders" style={{ fontWeight: 500, fontSize: '0.9rem', opacity: 0.9 }}>My Orders</Link>}
+                    <Link to="/contact" style={{ fontWeight: 500, fontSize: '0.9rem', opacity: 0.9 }}>Contact</Link>
 
                     {/* Cart Button with Checkout Trigger */}
                     <button
