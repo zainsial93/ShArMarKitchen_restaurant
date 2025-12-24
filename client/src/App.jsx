@@ -11,7 +11,6 @@ import Contact from './pages/Contact';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
-import Login from './pages/Login';
 import Signup from './pages/Signup';
 import MyOrders from './pages/MyOrders';
 import WelcomeModal from './components/WelcomeModal';
