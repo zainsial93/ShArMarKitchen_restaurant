@@ -12,6 +12,8 @@ const Signup = () => {
         e.preventDefault();
         try {
             const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            console.log("Attempting Signup at:", `${API_BASE}/api/auth/signup`); // DEBUG LOG
+
             const res = await fetch(`${API_BASE}/api/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
