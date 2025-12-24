@@ -5,14 +5,11 @@ import api from '../api';
 import { motion } from 'framer-motion';
 import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 import { formatCurrency } from '../utils/currency';
+import { useAuth } from '../context/AuthContext';
 
 const CheckoutModal = ({ isOpen, onClose }) => {
     const { cart, getTotal, clearCart, markOrderAsPlaced, addToCart, removeFromCart } = useCart();
-    const { user } = require('../context/AuthContext').useAuth(); // Using require inside component to avoid top-level circular dependency if any, or just import at top.
-    // Better: import useAuth at top.
-    // Wait, import is already at top? No.
-    // Let me check imports. useAuth is NOT imported in CheckoutModal.jsx.
-    // I need to add import.
+    const { user } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         customerName: '',
