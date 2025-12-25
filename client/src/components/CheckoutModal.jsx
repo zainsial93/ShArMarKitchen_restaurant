@@ -73,8 +73,8 @@ const CheckoutModal = ({ isOpen, onClose }) => {
             navigate(`/order-summary`, { state: { orderId, ...orderData, items: cart } });
         } catch (err) {
             console.error(err);
-            const msg = err.response?.data?.error || 'Order failed. Please try again.';
-            alert(msg);
+            const msg = err.response?.data?.error || err.message || 'Order failed. Unknown error.';
+            alert(`Error: ${msg}`);
         }
     };
 

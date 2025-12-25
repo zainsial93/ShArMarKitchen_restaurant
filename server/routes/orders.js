@@ -12,13 +12,22 @@ router.post('/', async (req, res) => {
 
     try {
         // Validate User ID to prevent Foreign Key crashes if user is stale
+        // Validate User ID to prevent Foreign Key crashes if user is stale
         let validUserId = null;
         if (userId) {
-            const userExists = await User.findByPk(userId);
-            if (userExists) {
-                validUserId = userId;
-            } else {
-                console.warn(`Invalid userId ${userId} provided. Defaulting to Guest order.`);
+            try {
+                // Ensure it's an integer (Postgres sanity check)
+                const parsedId = parseInt(userId, 10);
+                if (!isNaN(parsedId)) {
+                    const userExists = await User.findByPk(parsedId);
+                    if (userExists) {
+                        validUserId = parsedId;
+                    } else {
+                        console.warn(`User ID ${parsedId} not found. using Guest.`);
+                    }
+                }
+            } catch (uErr) {
+                console.warn(`Error checking user ID: ${uErr.message}. Using Guest.`);
             }
         }
 
