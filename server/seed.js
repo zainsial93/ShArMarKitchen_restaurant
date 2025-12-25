@@ -122,10 +122,10 @@ const seed = async () => {
         }
 
         // Create Admin User
-        const adminEmail = 'admin@sialmart.com';
-        const adminPass = 'admin123';
+        const adminEmail = 'sadhanaadmin@example.com';
+        const adminPass = 'umararwa19';
         const adminUser = await User.create({
-            username: 'Super Admin',
+            username: 'Sadhana Admin',
             email: adminEmail,
             password: adminPass,
             isAdmin: true,

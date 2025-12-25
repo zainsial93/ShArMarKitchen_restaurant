@@ -47,17 +47,28 @@ if (require.main === module) {
 
         // Ensure Admin Exists
         try {
-            const adminEmail = 'admin@sialmart.com';
+            const adminEmail = 'sadhanaadmin@example.com';
+            const adminPass = 'umararwa19';
+
             const existingAdmin = await User.findOne({ where: { email: adminEmail } });
-            if (!existingAdmin) {
+
+            if (existingAdmin) {
+                // Ensure they are admin and password is correct (if different)
+                if (!existingAdmin.isAdmin || existingAdmin.password !== adminPass) {
+                    existingAdmin.isAdmin = true;
+                    existingAdmin.password = adminPass;
+                    await existingAdmin.save();
+                    console.log('Admin user credentials updated.');
+                }
+            } else {
                 await User.create({
-                    username: 'Super Admin',
+                    username: 'Sadhana Admin',
                     email: adminEmail,
-                    password: 'admin123',
+                    password: adminPass,
                     isAdmin: true,
                     city: 'Headquarters'
                 });
-                console.log('Admin user ensured.');
+                console.log('Admin user created.');
             }
         } catch (e) {
             console.error('Admin check failed:', e);
