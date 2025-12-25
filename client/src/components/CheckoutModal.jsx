@@ -68,8 +68,9 @@ const CheckoutModal = ({ isOpen, onClose }) => {
 
             markOrderAsPlaced(); // ! IMPORTANT: Enable review modal
             onClose();
-            // navigate is handled by ReviewModal after user interacts or closes it.
-            // navigate(`/order-summary`, { state: { orderId, ...orderData, items: cart } });
+
+            // Navigate immediately so user sees order confirmation
+            navigate(`/order-summary`, { state: { orderId, ...orderData, items: cart } });
         } catch (err) {
             console.error(err);
             alert('Order failed. Please try again.');
@@ -133,9 +134,12 @@ const CheckoutModal = ({ isOpen, onClose }) => {
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ borderTop: '2px solid #ddd', paddingTop: '0.5rem', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ borderTop: '2px solid #ddd', paddingTop: '0.5rem', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span>Total:</span>
                                 <span style={{ color: 'var(--accent)', fontSize: '1.2rem' }}>{formatCurrency(getTotal())}</span>
+                            </div>
+                            <div style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.5rem', textAlign: 'right', fontStyle: 'italic' }}>
+                                Payment Method: Cash on Delivery
                             </div>
                         </div>
 

@@ -28,6 +28,9 @@ const OrderSummary = () => {
                     <h3 style={{ marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
                         Total: {formatCurrency(order.totalAmount)}
                     </h3>
+                    <p style={{ textAlign: 'right', color: '#666', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                        Payment Method: Cash on Delivery (COD)
+                    </p>
                 </div>
                 <Link to="/" className="btn btn-primary" style={{ marginTop: '2rem' }}>Continue Shopping</Link>
             </div>

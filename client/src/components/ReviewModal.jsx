@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -29,12 +29,18 @@ const ReviewModal = () => {
         }
     }, []);
 
+    const location = useLocation();
+
     useEffect(() => {
-        if (hasOrdered && !submitted && !sessionStorage.getItem('reviewSubmitted')) {
-            // Immediate popup when order is placed
-            setIsOpen(true);
+        // Only open if:
+        // 1. Order is placed (hasOrdered)
+        // 2. Not already submitted
+        // 3. We are ON the Order Summary page (ensures user sees success first)
+        if (hasOrdered && !submitted && !sessionStorage.getItem('reviewSubmitted') && location.pathname === '/order-summary') {
+            const timer = setTimeout(() => setIsOpen(true), 1500); // 1.5s delay for smooth UX
+            return () => clearTimeout(timer);
         }
-    }, [hasOrdered, submitted]);
+    }, [hasOrdered, submitted, location.pathname]);
 
     useEffect(() => {
         // Logic: If user has ordered, AND hasn't submitted yet:
@@ -79,11 +85,11 @@ const ReviewModal = () => {
             sessionStorage.setItem('reviewSubmitted', 'true');
             setIsOpen(false);
 
-            // Navigate to summary using the stored order details
-            if (lastOrder) {
-                navigate(`/order-summary`, { state: lastOrder });
-            } else {
-                navigate('/'); // Fallback
+            // Navigation to summary is already handled by CheckoutModal
+            // Just close the modal here to let user view the summary page they are already on.
+            if (!lastOrder) {
+                // Should not happen if flow is correct, but fallback
+                navigate('/');
             }
         } catch (err) {
             console.error(err);
