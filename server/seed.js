@@ -1,4 +1,4 @@
-const { sequelize, Category, Product } = require('./models');
+const { sequelize, Category, Product, User } = require('./models');
 
 // NOTE TO USER:
 // 1. Place your images in 'client/public/images/products/'
@@ -120,6 +120,18 @@ const seed = async () => {
             await Product.bulkCreate(products.slice(i, i + chunkSize));
             console.log(`Seeded batch ${i} - ${i + chunkSize}`);
         }
+
+        // Create Admin User
+        const adminEmail = 'admin@sialmart.com';
+        const adminPass = 'admin123';
+        const adminUser = await User.create({
+            username: 'Super Admin',
+            email: adminEmail,
+            password: adminPass,
+            isAdmin: true,
+            city: 'Headquarters'
+        });
+        console.log(`✅ Admin User Created: ${adminEmail}`);
 
         console.log('ShArMar Kitchen Seed Complete!');
         process.exit();
