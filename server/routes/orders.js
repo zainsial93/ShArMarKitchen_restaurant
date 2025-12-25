@@ -11,12 +11,23 @@ router.post('/', async (req, res) => {
     }
 
     try {
+        // Validate User ID to prevent Foreign Key crashes if user is stale
+        let validUserId = null;
+        if (userId) {
+            const userExists = await User.findByPk(userId);
+            if (userExists) {
+                validUserId = userId;
+            } else {
+                console.warn(`Invalid userId ${userId} provided. Defaulting to Guest order.`);
+            }
+        }
+
         // Create Order first (Parent)
         const order = await Order.create({
             customerName,
             customerAddress,
             totalAmount,
-            userId: userId || null,
+            userId: validUserId,
             status: 'completed'
         });
 
