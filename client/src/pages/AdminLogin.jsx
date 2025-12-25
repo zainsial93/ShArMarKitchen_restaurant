@@ -16,7 +16,7 @@ const AdminLogin = () => {
             const response = await fetch(`${API_BASE}/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, code })
+                body: JSON.stringify({ email, password: code }) // Backend expects 'password', keeping 'code' state var for now
             });
 
             const data = await response.json();
@@ -50,7 +50,7 @@ const AdminLogin = () => {
                     />
                 </div>
                 <div>
-                    <label>Secret Code</label>
+                    <label>Password</label>
                     <input
                         type="password"
                         required
