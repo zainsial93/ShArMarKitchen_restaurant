@@ -60,10 +60,12 @@ const seed = async () => {
         const add = (catIndex, name, price, variantType) => {
             let variants = null;
             if (variantType === 'pizza') {
+                // Pizza: Small 300-500, Medium 500-800, Large 900-1300
+                // We passed base price ~400 (Small)
                 variants = [
                     { label: 'Small', price: price },
-                    { label: 'Medium', price: price + 500 },
-                    { label: 'Large', price: price + 1000 }
+                    { label: 'Medium', price: price + 250 }, // 400+250 = 650 (fits 500-800)
+                    { label: 'Large', price: price + 700 }   // 400+700 = 1100 (fits 900-1300)
                 ];
             } else if (variantType === 'karahi') {
                 variants = [
@@ -84,19 +86,35 @@ const seed = async () => {
 
         // Adding Data
         const burgerList = ['Classic Cheeseburger', 'Bacon Deluxe', 'Smash Burger', 'Zinger Burger', 'Spicy Jalapeno Burger'];
-        burgerList.forEach(b => add(0, b, 600));
+        // Burgers: 200-700. Use 450 avg.
+        burgerList.forEach(b => add(0, b, 450));
 
         const pizzaList = ['Margherita Pizza', 'Pepperoni Pizza', 'BBQ Chicken Pizza', 'Fajita Pizza'];
-        pizzaList.forEach(p => add(1, p, 1200, 'pizza'));
+        // Pizza: Small 300-500. Use 400.
+        // Logic in 'add' function for Pizza variants needs to be calculated relative to this or fixed.
+        // Current 'add' logic: S=price, M=price+500, L=price+1000.
+        // If Base=400: S=400, M=900 (High but ok?), L=1400 (High).
+        // Requested: M(500-800), L(900-1300).
+        // Let's modify the 'add' function logic locally or just pass base. 
+        // I will update the 'add' function above instead.
+        pizzaList.forEach(p => add(1, p, 400, 'pizza'));
 
         const karahiList = ['Chicken Karahi', 'Mutton Karahi', 'White Handi'];
-        karahiList.forEach(k => add(2, k, 1500, 'karahi'));
+        // Karahi: 900-1900. Use 1200.
+        karahiList.forEach(k => add(2, k, 1200, 'karahi'));
 
         const riceList = ['Chicken Biryani', 'Vegetable Rice'];
-        riceList.forEach(r => add(3, r, 500));
+        // Biryani: 150-450. Use 300.
+        riceList.forEach(r => add(3, r, 300));
+
+        // Desserts were missing in original call list? Add them.
+        const dessertList = ['Chocolate Cake', 'Ice Cream', 'Brownie'];
+        // Desserts: 100-500. Use 250.
+        dessertList.forEach(d => add(4, d, 250));
 
         const drinkList = ['Coke', 'Pepsi', 'Water', 'Mint Margarita'];
-        drinkList.forEach(d => add(5, d, 150));
+        // Beverages: 150-600. Use 200.
+        drinkList.forEach(d => add(5, d, 200));
 
         // Bulk Insert
         await Product.bulkCreate(products);
