@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
 const ReviewModal = () => {
-    const { hasOrdered } = useCart();
+    const { hasOrdered, lastOrder } = useCart();
     const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -57,6 +58,11 @@ const ReviewModal = () => {
         };
     }, [hasOrdered, submitted]);
 
+    // ... (rest of hook logic)
+    // Actually, I need to add useNavigate import first.
+
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.userName || !formData.city) return;
@@ -65,7 +71,13 @@ const ReviewModal = () => {
             await api.post('/reviews', formData);
             setSubmitted(true);
             setIsOpen(false);
-            alert('Thank you for your review! You may now leave.');
+
+            // Navigate to summary using the stored order details
+            if (lastOrder) {
+                navigate(`/order-summary`, { state: lastOrder });
+            } else {
+                navigate('/'); // Fallback
+            }
         } catch (err) {
             console.error(err);
             alert('Error submitting review.');

@@ -14,16 +14,23 @@ const isAdmin = (req, res, next) => {
 };
 
 // Admin Login
-router.post('/login', (req, res) => {
-    const { email, code } = req.body;
-    const envEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
-    const envCode = process.env.ADMIN_CODE || '12345';
+// Admin Login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
 
-    if (email === envEmail && code === envCode) {
-        // Return a static token for this session
-        return res.json({ success: true, token: 'simple-admin-token-secure' });
+    try {
+        const user = await User.findOne({ where: { email } });
+        // NOTE: Using plain text password as per existing auth.js pattern. 
+        // In production, use bcrypt.
+        if (user && user.password === password && user.isAdmin) {
+            // Return a simple token (in real app, sign a JWT)
+            return res.json({ success: true, token: 'simple-admin-token-secure', user: { username: user.username, email: user.email } });
+        }
+
+        return res.status(401).json({ error: 'Invalid email/password or not an admin' });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
     }
-    return res.status(401).json({ error: 'Invalid email or code' });
 });
 
 // Get All Users (Visitors)

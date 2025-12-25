@@ -9,6 +9,7 @@ export const CartProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const [hasOrdered, setHasOrdered] = useState(false);
+    const [lastOrder, setLastOrder] = useState(null);
 
     useEffect(() => {
         try {
@@ -104,7 +105,8 @@ export const CartProvider = ({ children }) => {
             cart, addToCart, removeFromCart, clearCart, getTotal,
             toasts, addToast,
             isCheckoutOpen, openCheckout, closeCheckout,
-            hasOrdered, markOrderAsPlaced
+            hasOrdered, markOrderAsPlaced,
+            lastOrder, setLastOrder
         }}>
             {children}
         </CartContext.Provider>

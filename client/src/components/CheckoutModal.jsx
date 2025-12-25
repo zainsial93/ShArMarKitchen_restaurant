@@ -61,11 +61,15 @@ const CheckoutModal = ({ isOpen, onClose }) => {
 
             // Update State
             clearCart();
-            markOrderAsPlaced(); // ! IMPORTANT: Enable review modal
-
             const orderId = res.data.orderId || Math.floor(Math.random() * 10000);
+
+            // Save order details for the summary page, to be accessed AFTER review
+            setLastOrder({ orderId, ...orderData, items: cart });
+
+            markOrderAsPlaced(); // ! IMPORTANT: Enable review modal
             onClose();
-            navigate(`/order-summary`, { state: { orderId, ...orderData, items: cart } });
+            // navigate is handled by ReviewModal after user interacts or closes it.
+            // navigate(`/order-summary`, { state: { orderId, ...orderData, items: cart } });
         } catch (err) {
             console.error(err);
             alert('Order failed. Please try again.');
