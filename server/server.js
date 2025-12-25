@@ -38,10 +38,31 @@ app.use('/api/auth', require('./routes/auth'));
 // Export the app for Vercel/Serverless
 module.exports = app;
 
-// Only start the server if running locally or in a standard node environment (like Render/Railway)
+const { User } = require('./models');
+
+// Only start the server if running locally or in a standard node environment
 if (require.main === module) {
-    sequelize.sync({ force: false }).then(() => {
+    sequelize.sync({ force: false, alter: true }).then(async () => {
         console.log('Database synced');
+
+        // Ensure Admin Exists
+        try {
+            const adminEmail = 'admin@sialmart.com';
+            const existingAdmin = await User.findOne({ where: { email: adminEmail } });
+            if (!existingAdmin) {
+                await User.create({
+                    username: 'Super Admin',
+                    email: adminEmail,
+                    password: 'admin123',
+                    isAdmin: true,
+                    city: 'Headquarters'
+                });
+                console.log('Admin user ensured.');
+            }
+        } catch (e) {
+            console.error('Admin check failed:', e);
+        }
+
         app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT}`);
         });
