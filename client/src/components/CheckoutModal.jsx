@@ -73,7 +73,8 @@ const CheckoutModal = ({ isOpen, onClose }) => {
             navigate(`/order-summary`, { state: { orderId, ...orderData, items: cart } });
         } catch (err) {
             console.error(err);
-            alert('Order failed. Please try again.');
+            const msg = err.response?.data?.error || 'Order failed. Please try again.';
+            alert(msg);
         }
     };
 
