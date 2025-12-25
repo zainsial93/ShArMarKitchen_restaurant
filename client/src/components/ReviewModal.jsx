@@ -24,7 +24,13 @@ const ReviewModal = () => {
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
-        if (hasOrdered && !submitted) {
+        if (sessionStorage.getItem('reviewSubmitted')) {
+            setSubmitted(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (hasOrdered && !submitted && !sessionStorage.getItem('reviewSubmitted')) {
             // Immediate popup when order is placed
             setIsOpen(true);
         }
@@ -70,6 +76,7 @@ const ReviewModal = () => {
         try {
             await api.post('/reviews', formData);
             setSubmitted(true);
+            sessionStorage.setItem('reviewSubmitted', 'true');
             setIsOpen(false);
 
             // Navigate to summary using the stored order details
