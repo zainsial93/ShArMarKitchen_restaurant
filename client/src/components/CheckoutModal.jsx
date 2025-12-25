@@ -8,7 +8,7 @@ import { formatCurrency } from '../utils/currency';
 import { useAuth } from '../context/AuthContext';
 
 const CheckoutModal = ({ isOpen, onClose }) => {
-    const { cart, getTotal, clearCart, markOrderAsPlaced, addToCart, removeFromCart } = useCart();
+    const { cart, getTotal, clearCart, markOrderAsPlaced, addToCart, removeFromCart, setLastOrder } = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
